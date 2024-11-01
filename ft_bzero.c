@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 16:32:07 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/01 19:10:25 by tpinarli         ###   ########.fr       */
+/*   Created: 2024/10/31 15:54:46 by tpinarli          #+#    #+#             */
+/*   Updated: 2024/11/01 19:09:37 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isalpha(int ch)
+void	ft_bzero(void *s, size_t n)
 {
-	if (ch < 'A' || ch > 'z')
-	{
-		return (0);
-	}
-	if (ch < 'a' && ch > 'Z')
-	{
-		return (0);
-	}
-	return (1);
+	ft_memset(s, '\0', n);
 }
+
+/*int	main()
+{
+	char	s[] = "ali ata bak";
+	size_t	i = 2;
+	ft_bzero(s+4,i);
+	printf("%s", s);
+	return (0);
+}*/

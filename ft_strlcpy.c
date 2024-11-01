@@ -1,26 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 16:32:07 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/01 19:10:25 by tpinarli         ###   ########.fr       */
+/*   Created: 2024/11/01 21:00:41 by tpinarli          #+#    #+#             */
+/*   Updated: 2024/11/01 21:15:18 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isalpha(int ch)
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-	if (ch < 'A' || ch > 'z')
+	int	i;
+	int res;
+
+	res = strlen(src);
+	i = 0;
+	if (size == 0)
+		return (res);
+	while (src[i] != '\0' && i < size - 1)
 	{
-		return (0);
+		dst[i] = src[i];
+		i++;
 	}
-	if (ch < 'a' && ch > 'Z')
-	{
-		return (0);
-	}
-	return (1);
+	if (size > i)
+		dst[i] = '\0';
+	return (res);
+}
+
+int main()
+{
+	char	str[] = "Ali ata bak";
+	char	dest[11];
+	size_t	size = 11;
+
+	ft_strlcpy(dest, str, size);
+	printf("%s", dest);
+	return (0);
 }

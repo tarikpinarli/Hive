@@ -5,12 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/08 17:27:51 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/07/08 18:31:42 by tpinarli         ###   ########.fr       */
+/*   Created: 2024/11/01 19:40:30 by tpinarli          #+#    #+#             */
+/*   Updated: 2024/11/01 20:30:04 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_atoi(char *str)
+#include "libft.h"
+
+int	ft_atoi(const char *str)
 {
 	int	i;
 	int	minus;
@@ -38,3 +40,15 @@ int	ft_atoi(char *str)
 		return (result * -1);
 	return (result);
 }
+
+/*int main()
+{
+	char	str[] = " --+200abc+";
+	int result01;
+	int result02;
+	result01 = ft_atoi(str);
+	result02 = atoi(str);
+	printf("%d\n", result01);
+	printf("%d",result02);
+	return (0);
+}*/

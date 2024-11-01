@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 16:32:07 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/01 19:10:25 by tpinarli         ###   ########.fr       */
+/*   Created: 2024/10/31 10:56:41 by tpinarli          #+#    #+#             */
+/*   Updated: 2024/10/31 16:21:10 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isalpha(int ch)
+size_t	ft_strlen(const char	*str)
 {
-	if (ch < 'A' || ch > 'z')
+	size_t i;
+	i = 0;
+	while (str[i] != '\0')
 	{
-		return (0);
+		i++;
 	}
-	if (ch < 'a' && ch > 'Z')
-	{
-		return (0);
-	}
-	return (1);
+	return (i);
 }
+
+/*int	main()
+{
+	const char	*str = "ddddabc";
+	size_t result;
+	result = ft_strlen(str);
+	printf("%zu", result);
+	return (0);
+}*/

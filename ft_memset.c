@@ -1,26 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 16:32:07 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/01 19:10:25 by tpinarli         ###   ########.fr       */
+/*   Created: 2024/10/31 15:21:42 by tpinarli          #+#    #+#             */
+/*   Updated: 2024/11/01 19:17:56 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isalpha(int ch)
+void	*ft_memset(void *s, int c, size_t n)
 {
-	if (ch < 'A' || ch > 'z')
+	char	*p;
+	int		i;
+	i = 0;
+	p = (char*)s;
+	while (i < n)
 	{
-		return (0);
+		p[i] = c;
+		i++;
 	}
-	if (ch < 'a' && ch > 'Z')
-	{
-		return (0);
-	}
-	return (1);
+	return (s);
 }
+
+/*int	main()
+{
+	char	s[] = "tarik pinarli"; 
+	int	c = '.';
+	size_t	n = 3;
+	ft_memset(s + 2, c, n);
+
+	printf("%s", s);
+	return (0);
+}*/

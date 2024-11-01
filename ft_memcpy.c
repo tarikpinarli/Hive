@@ -1,26 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 16:32:07 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/01 19:10:25 by tpinarli         ###   ########.fr       */
+/*   Created: 2024/10/31 16:22:34 by tpinarli          #+#    #+#             */
+/*   Updated: 2024/11/01 21:00:23 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isalpha(int ch)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	if (ch < 'A' || ch > 'z')
+	char	*point;
+	char	*chp;
+	int		i;
+	point = (char*)dest;
+	chp = (char*)src;
+	if (!point && !chp)
+		return (NULL);
+	i = 0;
+	while (i < n)
 	{
-		return (0);
+		point[i] = chp[i];
+		i++;
 	}
-	if (ch < 'a' && ch > 'Z')
-	{
-		return (0);
-	}
-	return (1);
+	return (point);
 }
+
+/*int	main()
+{
+	char	src[11] = "HelloWorld";
+	char	dest[11];
+	ft_memcpy(dest, src, sizeof(src));
+	printf("%s", src);
+	printf("\n");
+	printf("%s", dest);
+	return (0);
+}*/
