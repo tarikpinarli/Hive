@@ -1,38 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/31 15:21:42 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/05 14:54:17 by tpinarli         ###   ########.fr       */
+/*   Created: 2024/11/02 16:03:34 by tpinarli          #+#    #+#             */
+/*   Updated: 2024/11/02 16:08:09 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memset(void *s, int c, size_t n)
+int	ft_tolower(int c)
 {
-	char	*p;
-	size_t		i;
-	i = 0;
-	p = (char*)s;
-	while (i < n)
+	if (c <= 90 && c >= 65)
 	{
-		p[i] = c;
-		i++;
+		c = c + 32;
 	}
-	return (s);
+	return (c);
 }
 
-int	main()
+/*int main()
 {
-	char	s[] = "tarik pinarli"; 
-	int	c = '.';
-	size_t	n = 3;
-	ft_memset(s + 2, c, n);
-
-	printf("%s", s);
+	int val;
+	int  res;
+	val = '0';
+	res = ft_tolower(val);
+	printf("%c", res);
 	return (0);
-}
+}*/

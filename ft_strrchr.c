@@ -1,38 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/31 15:21:42 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/05 14:54:17 by tpinarli         ###   ########.fr       */
+/*   Created: 2024/11/02 16:29:25 by tpinarli          #+#    #+#             */
+/*   Updated: 2024/11/02 16:56:17 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memset(void *s, int c, size_t n)
+char	*ft_strrchr(const char *s, int c)
 {
+	int		i;
 	char	*p;
-	size_t		i;
-	i = 0;
-	p = (char*)s;
-	while (i < n)
+
+	p = (char *)s;
+	i = ft_strlen(s);
+	while (i != 0)
 	{
-		p[i] = c;
-		i++;
+		if (s[i] == c)
+		{
+			p = &p[i];
+			return (p);
+		}
+		i--;
 	}
-	return (s);
+	return (p);
 }
 
-int	main()
+/*int  main()
 {
-	char	s[] = "tarik pinarli"; 
-	int	c = '.';
-	size_t	n = 3;
-	ft_memset(s + 2, c, n);
-
-	printf("%s", s);
+	char	str[] = "-li ata bak";
+	int		ch;
+	char	*pt;
+	ch = '-';
+	pt = ft_strrchr(str, ch);
+	printf("%s", pt);
 	return (0);
-}
+}*/

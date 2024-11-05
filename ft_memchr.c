@@ -1,38 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/31 15:21:42 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/05 14:54:17 by tpinarli         ###   ########.fr       */
+/*   Created: 2024/11/02 16:59:59 by tpinarli          #+#    #+#             */
+/*   Updated: 2024/11/02 17:38:56 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memset(void *s, int c, size_t n)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
+	int		i;
+	int		nb;
 	char	*p;
-	size_t		i;
+
+	p = (char *)s;
+	nb = (int)n;
 	i = 0;
-	p = (char*)s;
-	while (i < n)
+	while (i != nb)
 	{
-		p[i] = c;
+		if (p[i] == c)
+		{
+			p = &p[i];
+			return (p);
+		}
 		i++;
 	}
-	return (s);
+	p = NULL;
+	return (p);
 }
 
-int	main()
+/*int main()
 {
-	char	s[] = "tarik pinarli"; 
-	int	c = '.';
-	size_t	n = 3;
-	ft_memset(s + 2, c, n);
-
-	printf("%s", s);
+	const char	s[] = "Ali ata bak";
+	int	c;
+	size_t	n;
+	char	*p;
+	c = 'l';
+	n = 5;
+	p = ft_memchr(s, c, n);
+	printf("%s", p);
 	return (0);
-}
+}*/

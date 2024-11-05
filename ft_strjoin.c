@@ -1,42 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 17:01:29 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/02 16:59:35 by tpinarli         ###   ########.fr       */
+/*   Created: 2024/11/03 13:30:49 by tpinarli          #+#    #+#             */
+/*   Updated: 2024/11/04 16:24:34 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int ft_strncmp(const char *s1, const char *s2, size_t n)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	unsigned int	i;
+	int		i;
+	int		j;
+	int		len;
+	char	*join;
 
+	len = ft_strlen(s1) + ft_strlen(s2);
+	join = (char *)malloc(len * sizeof(char));
+	if (!join)
+		return (NULL);
 	i = 0;
 	while (s1[i] != '\0')
 	{
-		if (s1[i] != s2[i] && i < n)
-		{
-			return (s1[i] - s2[i]);
-		}
+		join[i] = s1[i];
 		i++;
 	}
-	return (s1[i] - s2[i]);
+	j = 0;
+	while (s2[j] != '\0')
+	{
+		join[i] = s2[j];
+		i++;
+		j++;
+	}
+	join[i] = '\0';
+	return (join);
 }
 
 /*int main()
 {
-	char str1[] = "HelloWorld";
-	char str2[] = "HelloWorlc";
-	int val;
-	int n;
+	char	s1[] = "Ali fsfsdsdfa";
+	char	s2[] = "ta baksfsddfdsfs";
+	char	*res;
 
-	n = 10;
-	val = ft_strncmp(str1, str2, n);
-	printf("%d", val);
-	
+	res = ft_strjoin(s1, s2);
+	printf("%s", res);
+	return (0);
 }*/

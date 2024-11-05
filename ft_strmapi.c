@@ -1,38 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/31 15:21:42 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/05 14:54:17 by tpinarli         ###   ########.fr       */
+/*   Created: 2024/11/05 14:07:38 by tpinarli          #+#    #+#             */
+/*   Updated: 2024/11/05 14:14:30 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-void	*ft_memset(void *s, int c, size_t n)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	char	*p;
-	size_t		i;
-	i = 0;
-	p = (char*)s;
-	while (i < n)
-	{
-		p[i] = c;
-		i++;
-	}
-	return (s);
-}
 
-int	main()
-{
-	char	s[] = "tarik pinarli"; 
-	int	c = '.';
-	size_t	n = 3;
-	ft_memset(s + 2, c, n);
-
-	printf("%s", s);
-	return (0);
 }

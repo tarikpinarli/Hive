@@ -1,38 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/31 15:21:42 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/05 14:54:17 by tpinarli         ###   ########.fr       */
+/*   Created: 2024/11/02 17:39:45 by tpinarli          #+#    #+#             */
+/*   Updated: 2024/11/02 17:53:19 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memset(void *s, int c, size_t n)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	char	*p;
-	size_t		i;
+	char	*sp1;
+	char	*sp2;
+	int		i;
+	int		nb;
+
+	sp1 = (char *)s1;
+	sp2 = (char *)s2;
 	i = 0;
-	p = (char*)s;
-	while (i < n)
+	nb = (int)n;
+	while (i != nb)
 	{
-		p[i] = c;
+		if (sp1[i] != sp2[i])
+			return (sp1[i] - sp2[i]);
 		i++;
 	}
-	return (s);
-}
-
-int	main()
-{
-	char	s[] = "tarik pinarli"; 
-	int	c = '.';
-	size_t	n = 3;
-	ft_memset(s + 2, c, n);
-
-	printf("%s", s);
 	return (0);
 }
+
+/*int main()
+{
+	char	str1[] = "Ali ata bak";
+	char	str2[] = "Ali bta bak";
+	size_t	n;
+	int		res;
+
+	n = 0;
+	res = ft_memcmp(str1, str2, n);
+	printf("%d", res);
+	return (0);
+}*/

@@ -1,38 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/31 15:21:42 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/05 14:54:17 by tpinarli         ###   ########.fr       */
+/*   Created: 2024/11/04 12:55:04 by tpinarli          #+#    #+#             */
+/*   Updated: 2024/11/04 12:55:32 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memset(void *s, int c, size_t n)
+char	*ft_strdup(const char *source)
 {
-	char	*p;
-	size_t		i;
+	char	*mall;
+	int		i;
+
+	mall = malloc(sizeof(char) * (ft_strlen(source) + 1));
+	if (!mall)
+		return (NULL);
 	i = 0;
-	p = (char*)s;
-	while (i < n)
+	while (source[i])
 	{
-		p[i] = c;
+		mall[i] = source[i];
 		i++;
 	}
-	return (s);
-}
-
-int	main()
-{
-	char	s[] = "tarik pinarli"; 
-	int	c = '.';
-	size_t	n = 3;
-	ft_memset(s + 2, c, n);
-
-	printf("%s", s);
-	return (0);
+	mall[i] = 0;
+	return (mall);
 }
