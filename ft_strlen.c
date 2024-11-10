@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:56:41 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/02 16:40:59 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/08 11:28:32 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 size_t	ft_strlen(const char	*str)
 {
-	size_t i;
+	int	i;
+
 	i = 0;
 	while (str[i] != '\0')
 	{

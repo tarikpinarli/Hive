@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:36:22 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/04 18:01:33 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/10 15:26:06 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,21 @@ char	**size(char const *s, char c, char **array, int count);
 int		split_count(char const *s, char c);
 char	**sub_array_size(char const *s, char c, char **array, int count);
 char	**ch_alloc(char const *s, char c, char **array);
+void	free_array(char **array, int count);
+
+void	free_array(char **array, int count)
+{
+	int	i;
+
+	i = 0;
+	while (i < count)
+	{
+		if (array[i])
+			free(array[i]);
+		i++;
+	}
+	free(array);
+}
 
 char	**ft_split(char const *s, char c)
 {
@@ -34,26 +49,25 @@ char	**ft_split(char const *s, char c)
 char	**sub_array_size(char const *s, char c, char **array, int count)
 {
 	int	i;
-	int	k;
 	int	len;
 
 	i = 0;
-	k = 0;
 	while (i < count)
 	{
+		while (*s == c && *s != '\0')
+			s++;
 		len = 0;
-		while (s[k] != '\0' && s[k] != c)
+		while (*s != c && *s != '\0')
 		{
-			k++;
 			len++;
+			s++;
 		}
 		array[i] = (char *)malloc((len + 1) * sizeof(char));
 		if (!array[i])
 		{
-			free(array);
+			free_array(array, i);
 			return (NULL);
 		}
-		k++;
 		i++;
 	}
 	array[count] = NULL;
@@ -72,6 +86,8 @@ char	**ch_alloc(char const *s, char c, char **array)
 	while (array[i] != NULL)
 	{
 		j = 0;
+		while (s[k] == c && s[k] != '\0')
+			k++;
 		while (s[k] != '\0' && s[k] != c)
 		{
 			array[i][j] = s[k];
@@ -79,7 +95,6 @@ char	**ch_alloc(char const *s, char c, char **array)
 			k++;
 		}
 		array[i][j] = '\0';
-		k++;
 		i++;
 	}
 	return (array);
@@ -90,20 +105,25 @@ int	split_count(char const *s, char c)
 	int	i;
 	int	count;
 
+	count = 0;
 	i = 0;
-	count = 1;
+	if (s[0] == '\0')
+		return (count);
 	while (s[i] != '\0')
 	{
-		if (s[i] == c)
+		while (s[i] == c && s[i] != '\0')
+			i++;
+		if (s[i] != c && s[i] != '\0')
 			count++;
-		i++;
+		while (s[i] != c && s[i] != '\0')
+			i++;
 	}
 	return (count);
 }
 
 /*int	main(void)
 {
-	char	*s = "__Ali_ata_bak._";
+	char	*s = "_as_________s_Ali_ata___a";
 	char	c = '_';
 	char	**res;
 	int		i;
@@ -115,5 +135,6 @@ int	split_count(char const *s, char c)
 		printf("%s\n", res[i]);
 		i++;
 	}
+	printf("word count: %d\n", split_count(s, c));
 	return (0);
 }*/

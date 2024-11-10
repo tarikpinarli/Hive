@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 15:21:42 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/05 14:54:17 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/08 16:36:07 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 void	*ft_memset(void *s, int c, size_t n)
 {
 	char	*p;
-	size_t		i;
+	size_t	i;
+
 	i = 0;
-	p = (char*)s;
+	p = (char *)s;
 	while (i < n)
 	{
 		p[i] = c;
@@ -26,7 +27,7 @@ void	*ft_memset(void *s, int c, size_t n)
 	return (s);
 }
 
-int	main()
+/*int	main()
 {
 	char	s[] = "tarik pinarli"; 
 	int	c = '.';
@@ -35,4 +36,4 @@ int	main()
 
 	printf("%s", s);
 	return (0);
-}
+}*/

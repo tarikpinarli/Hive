@@ -1,44 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/02 16:08:34 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/08 12:11:36 by tpinarli         ###   ########.fr       */
+/*   Created: 2024/11/10 17:27:02 by tpinarli          #+#    #+#             */
+/*   Updated: 2024/11/10 17:32:01 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strchr(const char *s, int c)
+void	ft_putendl_fd(char *s, int fd)
 {
-	int		i;
-	char	*p;
+	char	nl;
 
-	i = 0;
-	p = (char *)s;
-	while (s[i] != '\0')
+	nl = '\n';
+	while (*s)
 	{
-		if (s[i] == c)
-		{
-			return (&p[i]);
-		}
-		i++;
+		write(fd, s, 1);
+		s++;
 	}
-	if (c == '\0')
-		return (&p[i]);
-	return (NULL);
+	write(fd, &nl, 1);
 }
 
 /*int	main()
 {
-	char	str[] = "Ali ata bak";
-	int		c;
-	char	*ptr;
-	c = 't';
-	ptr = ft_strchr(str, c);
-	printf("%s", ptr);
+	char	s[] = "ates ediyorsun Tarik";
+
+	ft_putendl_fd(s, 1);
 	return (0);
 }*/

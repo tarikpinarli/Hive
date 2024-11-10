@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 13:30:49 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/04 16:24:34 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/10 15:41:28 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	char	*join;
 
 	len = ft_strlen(s1) + ft_strlen(s2);
-	join = (char *)malloc(len * sizeof(char));
+	join = (char *)malloc((len + 1) * sizeof(char));
 	if (!join)
 		return (NULL);
 	i = 0;

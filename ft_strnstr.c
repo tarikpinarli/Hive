@@ -6,66 +6,44 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 17:58:26 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/02 18:28:00 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/08 16:08:39 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	allmatch(char *big, char *little, int len);
-
-char	*ft_strnstr(const char *big, const char *little, size_t len)
+char	*ft_strnstr(const char	*big, const char *little, size_t len)
 {
-	int		i;
-	int		len1;
-	char	*large;
-	char	*small;
+	size_t	i;
+	size_t	j;
 
-	large = (char *)big;
-	small = (char *)little;
-	len1 = (int)len;
+	if (little[0] == '\0')
+		return ((char *)big);
+	if (len == 0)
+		return (NULL);
 	i = 0;
-	if (small[0] == '\0')
-		return (large);
-	while (big[i] != '\0')
+	while (big[i] && i < len)
 	{
-		if (big[i] == little[0])
+		j = 0;
+		while (big[i + j] == little[j] && i + j < len)
 		{
-			if (allmatch(&large[i], small, len1) == 1)
-			{
-				return (&large[i]);
-			}
+			j++;
+			if (little[j] == 0)
+				return ((char *)big + i);
 		}
 		i++;
 	}
 	return (NULL);
 }
 
-int	allmatch(char *big, char *little, int len)
-{
-	int	i;
-	int	len1;
-
-	i = 0;
-	len1 = len;
-	while (len1 != 0)
-	{
-		if (big[i] != little[i])
-			return (0);
-		i++;
-		len1--;
-	}
-	return (1);
-}
-
 /*int	main()
 {
-	const char	largestring[] = "Foo Bar Baz";
-	const char	littlestring[] = "";
+	const char	largestring[] = "ibo tam bir mal";
+	const char	littlestring[] = "bir";
 	size_t	len;
 	char	*ptr;
 
-	len = 1;
+	len = 11;
 	ptr = ft_strnstr(largestring, littlestring, len);
 	printf("%s", ptr);
 	return (0);

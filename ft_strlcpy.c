@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 21:00:41 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/01 21:15:18 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/08 12:00:08 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-	int	i;
-	int res;
+	size_t	i;
+	int		res;
 
-	res = strlen(src);
+	res = ft_strlen(src);
 	i = 0;
 	if (size == 0)
 		return (res);
@@ -31,7 +31,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	return (res);
 }
 
-int main()
+/*int main()
 {
 	char	str[] = "Ali ata bak";
 	char	dest[11];
@@ -40,4 +40,4 @@ int main()
 	ft_strlcpy(dest, str, size);
 	printf("%s", dest);
 	return (0);
-}
+}*/

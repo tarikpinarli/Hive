@@ -1,44 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/02 16:08:34 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/08 12:11:36 by tpinarli         ###   ########.fr       */
+/*   Created: 2024/11/10 17:32:17 by tpinarli          #+#    #+#             */
+/*   Updated: 2024/11/10 18:12:31 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strchr(const char *s, int c)
+void	ft_putnbr_fd(int n, int fd)
 {
-	int		i;
-	char	*p;
+	char	res;
 
-	i = 0;
-	p = (char *)s;
-	while (s[i] != '\0')
+	res = 0;
+	if (n == -2147483648)
 	{
-		if (s[i] == c)
-		{
-			return (&p[i]);
-		}
-		i++;
+		write(fd, "-2147483648", 11);
+		return ;
 	}
-	if (c == '\0')
-		return (&p[i]);
-	return (NULL);
+	if (n < 0)
+	{
+		write(fd, "-", 1);
+		n = -n;
+	}
+	res = 48 + (n % 10);
+	n = n / 10;
+	if (n != 0)
+		ft_putnbr_fd(n, fd);
+	write (fd, &res, 1);
 }
 
-/*int	main()
+/*int	main(void)
 {
-	char	str[] = "Ali ata bak";
-	int		c;
-	char	*ptr;
-	c = 't';
-	ptr = ft_strchr(str, c);
-	printf("%s", ptr);
+	int	nb;
+
+	nb = 2147483647;
+	ft_putnbr_fd(nb, 1);
+	printf("\n%d", INT_MAX);
 	return (0);
 }*/

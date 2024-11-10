@@ -1,44 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/02 16:08:34 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/08 12:11:36 by tpinarli         ###   ########.fr       */
+/*   Created: 2024/11/10 17:14:58 by tpinarli          #+#    #+#             */
+/*   Updated: 2024/11/10 17:21:44 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strchr(const char *s, int c)
+void	ft_putchar_fd(char c, int fd)
 {
-	int		i;
-	char	*p;
-
-	i = 0;
-	p = (char *)s;
-	while (s[i] != '\0')
-	{
-		if (s[i] == c)
-		{
-			return (&p[i]);
-		}
-		i++;
-	}
-	if (c == '\0')
-		return (&p[i]);
-	return (NULL);
+	write(fd, &c, 1);
 }
 
 /*int	main()
 {
-	char	str[] = "Ali ata bak";
-	int		c;
-	char	*ptr;
-	c = 't';
-	ptr = ft_strchr(str, c);
-	printf("%s", ptr);
+	ft_putchar_fd('A', 2);
 	return (0);
 }*/

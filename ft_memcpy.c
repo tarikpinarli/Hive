@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 16:22:34 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/01 21:00:23 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/08 11:15:41 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
 	char	*point;
 	char	*chp;
-	int		i;
-	point = (char*)dest;
-	chp = (char*)src;
+	size_t	i;
+
+	point = (char *)dest;
+	chp = (char *)src;
 	if (!point && !chp)
 		return (NULL);
 	i = 0;

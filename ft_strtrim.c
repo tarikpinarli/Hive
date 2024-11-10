@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 13:53:56 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/04 15:36:06 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/10 15:32:41 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,20 @@ int	match(char c, char const *set)
 char	*ft_strtrim(char const *s1, char const *set)
 {
 	int		i;
-	int		y;
 	int		x;
 	int		max;
 	char	*res;
 
 	i = 0;
-	y = 0;
 	x = 0;
-	res = (char *)malloc(ft_strlen(s1) * sizeof(char));
-	if (!res)
-		return (NULL);
 	max = ft_strlen(s1);
 	while (match(s1[i], set) == 1)
 		i++;
 	while (match(s1[max - 1], set) == 1)
 		max--;
+	res = (char *)malloc((max - i + 1) * sizeof(char));
+	if (!res)
+		return (NULL);
 	while (i < max)
 		res[x++] = s1[i++];
 	res[x] = '\0';

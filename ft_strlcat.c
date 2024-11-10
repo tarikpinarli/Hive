@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 15:38:46 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/02 15:49:53 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/08 11:58:32 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,32 @@
 
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	unsigned int	i;
-	unsigned int	j;
+	size_t	i;
+	size_t	j;
+	size_t	lensrc;
+	size_t	lendst;
 
+	lendst = ft_strlen(dst);
+	lensrc = ft_strlen(src);
+	if (size <= lendst)
+		return (size + lensrc);
+	j = lendst;
 	i = 0;
-	j = 0;
-	while (dst[j] != '\0')
+	while (src[i] && j + 1 < size)
 	{
+		dst[j] = src[i];
+		i++;
 		j++;
 	}
-	if (size != 0)
-	{
-		while (src[i] != '\0' && i < (size -1))
-		{
-			dst[j] = src[i];
-			i++;
-			j++;
-		}
-		dst[j] = '\0';
-	}
-	return (i);
+	dst[j] = '\0';
+	return (lendst + lensrc);
 }
 
 /*int main()
 {
 	char	src[] = " bak";
-	char	dst[] = "Ali ata";
-	int		size;
-	size = 5;
-	ft_strlcat(dst, src, size);
+	char	dst[10] = "Ali ata";
+	ft_strlcat(dst, src, sizeof(dest);
 	printf("%s", dst);
 	return (0);
 }*/

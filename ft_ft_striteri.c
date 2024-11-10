@@ -1,44 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_ft_striteri.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/02 16:08:34 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/08 12:11:36 by tpinarli         ###   ########.fr       */
+/*   Created: 2024/11/10 16:23:37 by tpinarli          #+#    #+#             */
+/*   Updated: 2024/11/10 17:01:22 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+//#include "libft.h"
 
-char	*ft_strchr(const char *s, int c)
+void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 {
-	int		i;
-	char	*p;
+	int	i;
 
 	i = 0;
-	p = (char *)s;
-	while (s[i] != '\0')
+	if (!s)
+		return;
+	while (s[i])
 	{
-		if (s[i] == c)
-		{
-			return (&p[i]);
-		}
+		f(i, &s[i]);
 		i++;
 	}
-	if (c == '\0')
-		return (&p[i]);
-	return (NULL);
 }
 
-/*int	main()
+void sample_func(unsigned int i, char *c)
 {
-	char	str[] = "Ali ata bak";
-	int		c;
-	char	*ptr;
-	c = 't';
-	ptr = ft_strchr(str, c);
-	printf("%s", ptr);
-	return (0);
-}*/
+    if (*c >= 'a' && *c <= 'z')
+        *c = *c - 32; // Convert lowercase to uppercase
+}
+
+int main(void)
+{
+    char str[] = "hello world";
+
+    ft_striteri(str, sample_func);
+    printf("Modified string: %s\n", str);
+
+    return 0;
+}
