@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 15:54:46 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/04 13:25:32 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:15:26 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,3 @@ void	ft_bzero(void *s, size_t n)
 {
 	ft_memset(s, '\0', n);
 }
-
-/*int	main()
-{
-	char	s[] = "ali ata bak";
-	size_t	i = 2;
-	ft_bzero(s+4,i);
-	printf("%s", s);
-	return (0);
-}*/

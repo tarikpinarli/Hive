@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 15:50:09 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/02 16:02:46 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:36:42 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,3 @@ int	ft_toupper(int c)
 	}
 	return (c);
 }
-
-/*int	main()
-{
-	int	ch = '9';
-	char	res;
-	res = ft_toupper(ch);
-	printf("%c", res);
-	return (0);
-}*/

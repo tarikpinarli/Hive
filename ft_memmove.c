@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:19:39 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/08 11:26:01 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:17:59 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	char	*srcmov;
 	size_t	i;
 
-	if (!dest || !src)
+	if (!src && !dest)
 		return (NULL);
 	destmov = (char *)dest;
 	srcmov = (char *)src;
@@ -36,16 +36,3 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	}
 	return (destmov);
 }
-
-/*int main()
-{
-	const char	src[] = "HelloWorld";
-	char	dest[11];
-	size_t	n;
-	n = 10;
-	ft_memmove(dest, src+5, n);
-	//memmove(dest, src, n);
-	printf("%s\n", src);
-	printf("%s", dest);
-	return (0);
-}*/

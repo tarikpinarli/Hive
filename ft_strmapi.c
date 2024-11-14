@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 14:07:38 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/10 16:23:20 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:27:15 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,3 @@ char	sample_function(unsigned int n, char c)
 	else
 		return (c);
 }
-
-/*int	main()
-{
-	char	s[] = "napiyorum lan ben?";
-	char	*res;
-
-	res = ft_strmapi(s, sample_function);
-	printf("%s", res);
-	return (0);
-}*/

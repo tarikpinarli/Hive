@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 16:23:37 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/10 17:14:48 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:29:09 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,3 @@ void	sample_func(unsigned int i, char *c)
 	if (i % 2 == 0 && *c >= 'a' && *c <= 'z')
 		*c = *c - 32;
 }
-
-/*int	main(void)
-{
-    char	str[] = "hello world";
-
-    ft_striteri(str, sample_func);
-    printf("Modified string: %s\n", str);
-    return 0;
-}*/

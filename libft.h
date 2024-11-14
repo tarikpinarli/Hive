@@ -6,24 +6,14 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:38:58 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/10 18:18:56 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:39:59 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-# include <stdio.h>
-# include <string.h>
 # include <stdlib.h>
-# include <stddef.h>
 # include <unistd.h>
-# include <limits.h>
-
-typedef struct s_list
-{
-	void			*content;
-	struct s_list	*next;
-}		t_list;
 
 int		ft_atoi(const char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);

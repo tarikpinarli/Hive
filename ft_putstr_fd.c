@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 17:22:03 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/10 17:26:40 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:19:03 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,3 @@ void	ft_putstr_fd(char *s, int fd)
 		s++;
 	}
 }
-
-/*int	main()
-{
-	char	s[] = "olum cok iyi gidiyorum";
-
-	ft_putstr_fd(s, 1);
-	return (0);
-}*/

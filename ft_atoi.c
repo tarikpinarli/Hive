@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:40:30 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/08 16:27:38 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:11:39 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,3 @@ int	ft_atoi(const char *str)
 	}
 	return (result * sign);
 }
-
-/*int main()
-{
-	char	str[] = " --+200abc+";
-	int result01;
-	int result02;
-	result01 = ft_atoi(str);
-	result02 = atoi(str);
-	printf("%d\n", result01);
-	printf("%d",result02);
-	return (0);
-}*/

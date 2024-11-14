@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 16:22:34 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/08 11:15:41 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:15:51 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,3 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	}
 	return (point);
 }
-
-/*int	main()
-{
-	char	src[11] = "HelloWorld";
-	char	dest[11];
-	ft_memcpy(dest, src, sizeof(src));
-	printf("%s", src);
-	printf("\n");
-	printf("%s", dest);
-	return (0);
-}*/

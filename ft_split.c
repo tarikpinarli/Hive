@@ -6,19 +6,18 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:36:22 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/10 15:26:06 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:49:21 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	**size(char const *s, char c, char **array, int count);
-int		split_count(char const *s, char c);
-char	**sub_array_size(char const *s, char c, char **array, int count);
-char	**ch_alloc(char const *s, char c, char **array);
-void	free_array(char **array, int count);
+static int		split_count(char const *s, char c);
+static char		**sub_array_size(char const *s, char c, char **ar, int ct);
+static char		**ch_alloc(char const *s, char c, char **array);
+static void		free_array(char **array, int count);
 
-void	free_array(char **array, int count)
+static void	free_array(char **array, int count)
 {
 	int	i;
 
@@ -46,13 +45,13 @@ char	**ft_split(char const *s, char c)
 	return (array);
 }
 
-char	**sub_array_size(char const *s, char c, char **array, int count)
+static char	**sub_array_size(char const *s, char c, char **ar, int ct)
 {
 	int	i;
 	int	len;
 
 	i = 0;
-	while (i < count)
+	while (i < ct)
 	{
 		while (*s == c && *s != '\0')
 			s++;
@@ -62,19 +61,19 @@ char	**sub_array_size(char const *s, char c, char **array, int count)
 			len++;
 			s++;
 		}
-		array[i] = (char *)malloc((len + 1) * sizeof(char));
-		if (!array[i])
+		ar[i] = (char *)malloc((len + 1) * sizeof(char));
+		if (!ar[i])
 		{
-			free_array(array, i);
+			free_array(ar, i);
 			return (NULL);
 		}
 		i++;
 	}
-	array[count] = NULL;
-	return (array);
+	ar[ct] = NULL;
+	return (ar);
 }
 
-char	**ch_alloc(char const *s, char c, char **array)
+static char	**ch_alloc(char const *s, char c, char **array)
 {
 	int	i;
 	int	k;
@@ -100,7 +99,7 @@ char	**ch_alloc(char const *s, char c, char **array)
 	return (array);
 }
 
-int	split_count(char const *s, char c)
+static int	split_count(char const *s, char c)
 {
 	int	i;
 	int	count;
@@ -120,21 +119,3 @@ int	split_count(char const *s, char c)
 	}
 	return (count);
 }
-
-/*int	main(void)
-{
-	char	*s = "_as_________s_Ali_ata___a";
-	char	c = '_';
-	char	**res;
-	int		i;
-
-	res = ft_split(s, c);
-	i = 0;
-	while (res[i] != NULL)
-	{
-		printf("%s\n", res[i]);
-		i++;
-	}
-	printf("word count: %d\n", split_count(s, c));
-	return (0);
-}*/

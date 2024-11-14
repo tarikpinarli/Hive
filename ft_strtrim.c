@@ -6,13 +6,13 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 13:53:56 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/10 15:32:41 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:14:19 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	match(char c, char const *set)
+static int	match(char c, char const *set)
 {
 	size_t	i;
 
@@ -32,6 +32,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	int		x;
 	int		max;
 	char	*res;
+	int		total;
 
 	i = 0;
 	x = 0;
@@ -40,7 +41,10 @@ char	*ft_strtrim(char const *s1, char const *set)
 		i++;
 	while (match(s1[max - 1], set) == 1)
 		max--;
-	res = (char *)malloc((max - i + 1) * sizeof(char));
+	total = max - i + 1;
+	if (total <= 0)
+		total = 1;
+	res = (char *)malloc((total) * sizeof(char));
 	if (!res)
 		return (NULL);
 	while (i < max)
@@ -48,14 +52,3 @@ char	*ft_strtrim(char const *s1, char const *set)
 	res[x] = '\0';
 	return (res);
 }
-
-/*int	main(void)
-{
-	char	s1[] = "aliatabak dsvvvdv biraliatabak kiraliatabakj";
-	char	set[] = "aaliatabak";
-	char	*res;
-
-	res = ft_strtrim(s1, set);
-	printf("%s", res);
-	return (0);
-}*/

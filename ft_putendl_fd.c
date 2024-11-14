@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 17:27:02 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/10 17:32:01 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:12:20 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,3 @@ void	ft_putendl_fd(char *s, int fd)
 	}
 	write(fd, &nl, 1);
 }
-
-/*int	main()
-{
-	char	s[] = "ates ediyorsun Tarik";
-
-	ft_putendl_fd(s, 1);
-	return (0);
-}*/

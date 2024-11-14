@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 15:38:46 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/08 11:58:32 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:36:17 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	size_t	lensrc;
 	size_t	lendst;
 
+	if (size == 0 && dst == 0)
+		return (0);
 	lendst = ft_strlen(dst);
 	lensrc = ft_strlen(src);
 	if (size <= lendst)
@@ -34,12 +36,3 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	dst[j] = '\0';
 	return (lendst + lensrc);
 }
-
-/*int main()
-{
-	char	src[] = " bak";
-	char	dst[10] = "Ali ata";
-	ft_strlcat(dst, src, sizeof(dest);
-	printf("%s", dst);
-	return (0);
-}*/

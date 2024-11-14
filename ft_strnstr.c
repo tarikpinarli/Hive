@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 17:58:26 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/08 16:08:39 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:36:29 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,3 @@ char	*ft_strnstr(const char	*big, const char *little, size_t len)
 	}
 	return (NULL);
 }
-
-/*int	main()
-{
-	const char	largestring[] = "ibo tam bir mal";
-	const char	littlestring[] = "bir";
-	size_t	len;
-	char	*ptr;
-
-	len = 11;
-	ptr = ft_strnstr(largestring, littlestring, len);
-	printf("%s", ptr);
-	return (0);
-}*/

@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 13:11:42 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/10 15:49:33 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:17:22 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,13 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	int		index;
 	char	*res;
 
+	if (!s)
+		return (NULL);
 	i = 0;
 	len1 = (int)len;
 	index = (int)start;
+	if (start >= ft_strlen(s))
+		len1 = 0;
 	res = (char *)malloc((len + 1) * sizeof(char));
 	if (!res)
 		return (NULL);
@@ -34,17 +38,3 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	res[i] = '\0';
 	return (res);
 }
-
-/*int main()
-{
-	char	s[] = "Ali ata bak";
-	size_t	len;
-	int		start;
-	char	*res;
-
-	len = 10;
-	start = 5;
-	res = ft_substr(s, start, len);
-	printf("%s", res);
-	return (0);
-}*/

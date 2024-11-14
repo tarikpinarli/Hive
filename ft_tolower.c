@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 16:03:34 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/02 16:08:09 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:19:45 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,3 @@ int	ft_tolower(int c)
 	}
 	return (c);
 }
-
-/*int main()
-{
-	int val;
-	int  res;
-	val = '0';
-	res = ft_tolower(val);
-	printf("%c", res);
-	return (0);
-}*/

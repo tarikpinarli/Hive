@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 16:08:34 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/08 12:11:36 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:10:46 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,3 @@ char	*ft_strchr(const char *s, int c)
 		return (&p[i]);
 	return (NULL);
 }
-
-/*int	main()
-{
-	char	str[] = "Ali ata bak";
-	int		c;
-	char	*ptr;
-	c = 't';
-	ptr = ft_strchr(str, c);
-	printf("%s", ptr);
-	return (0);
-}*/

@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 16:59:59 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/02 17:38:56 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:10:25 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,3 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	p = NULL;
 	return (p);
 }
-
-/*int main()
-{
-	const char	s[] = "Ali ata bak";
-	int	c;
-	size_t	n;
-	char	*p;
-	c = 'l';
-	n = 5;
-	p = ft_memchr(s, c, n);
-	printf("%s", p);
-	return (0);
-}*/

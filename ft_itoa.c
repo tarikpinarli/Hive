@@ -6,15 +6,15 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:01:59 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/08 17:07:19 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:30:06 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		digit_count(int nb);
-char	*append(char *str, int nb, int len);
-char	*incase(int n);
+static int		digit_count(int nb);
+static char		*append(char *str, int nb, int len);
+static char		*incase(int n);
 
 char	*ft_itoa(int n)
 {
@@ -43,16 +43,27 @@ char	*ft_itoa(int n)
 	return (str);
 }
 
-char	*incase(int n)
+static char	*incase(int n)
 {
+	char	*big;
+	char	*small;
+
 	if (n == -2147483648)
-		return ("-2147483648");
+	{
+		big = (char *)malloc(15);
+		ft_strlcpy(big, "-2147483648", 12);
+		return (big);
+	}
 	if (n == 0)
-		return ("0");
+	{
+		small = (char *)malloc(2);
+		small = "0";
+		return (small);
+	}
 	return (NULL);
 }
 
-char	*append(char *str, int nb, int len)
+static char	*append(char *str, int nb, int len)
 {
 	while (nb != 0)
 	{
@@ -63,7 +74,7 @@ char	*append(char *str, int nb, int len)
 	return (str);
 }
 
-int	digit_count(int nb)
+static int	digit_count(int nb)
 {
 	int	i;
 
@@ -77,14 +88,3 @@ int	digit_count(int nb)
 	}
 	return (i);
 }
-
-/*int	main(void)
-{
-	int		n;
-	char	*s;
-
-	n = -213648;
-	s = ft_itoa(n);
-	printf("%s", s);
-	return (0);
-}*/

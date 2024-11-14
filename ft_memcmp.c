@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 17:39:45 by tpinarli          #+#    #+#             */
-/*   Updated: 2024/11/08 11:32:46 by tpinarli         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:12:02 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,3 @@ int	ft_memcmp(const void *s1, const void *s2, size_t n)
 	}
 	return (0);
 }
-
-/*int main()
-{
-	char	str1[] = "Ali ata bak";
-	char	str2[] = "Ali bta bak";
-	size_t	n;
-	int		res;
-
-	n = 0;
-	res = ft_memcmp(str1, str2, n);
-	printf("%d", res);
-	return (0);
-}*/
