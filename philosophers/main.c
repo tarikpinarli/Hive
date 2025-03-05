@@ -5,42 +5,111 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/26 17:38:48 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/03/01 16:20:52 by tpinarli         ###   ########.fr       */
+/*   Created: 2025/03/05 13:17:26 by tpinarli          #+#    #+#             */
+/*   Updated: 2025/03/05 16:38:36 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "philosophers.h"
+
+long    get_current_time()
+{
+    struct  timeval tv;
+    gettimeofday(&tv, NULL);
+    return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+}
+
+void *monitor_death(void *arg)
+{
+    t_data *data = (t_data *)arg;
+    while (!data->survived)
+    {
+        if (get_current_time() - data->last_meal_time > data->time_to_die)
+        {
+            printf("Philosopher %d has died.\n", data->id);
+            exit(1);
+        }
+        usleep(1000);
+    }
+    return NULL;
+}
+
+void    even_pick_fork(t_data *data)
+{
+    pthread_mutex_lock(data->right_fork);
+    pthread_mutex_lock(data->left_fork);
+}
+
+void    odd_pick_fork(t_data *data)
+{
+    pthread_mutex_lock(data->left_fork);
+    pthread_mutex_lock(data->right_fork);
+}
+
+void    start_eating(t_data *data)
+{
+    printf("Philosopher %d is eating...\n", data->id);
+    data->meals_eaten++;
+    usleep(data->time_to_eat * 1000);
+    data->last_meal_time = get_current_time();
+}
+
+void    leave_table(t_data *data)
+{
+    pthread_mutex_unlock(data->right_fork);
+    pthread_mutex_unlock(data->left_fork);
+    printf("Philosopher %d ate %d times, and left table.\n",
+            data->id ,data->philosopher_must_eat);
+    data->survived = 1;
+}
 
 void    *thread_function(void *thread_data)
 {
-    t_data  *data;
-
+    t_data      *data;
+    pthread_t   monitor_thread;
+    
     data = (t_data *)thread_data;
-    if (data->id % 2 == 0)
+    data->last_meal_time = get_current_time();
+    pthread_create(&monitor_thread, NULL, monitor_death, (void *)data);
+    pthread_detach(monitor_thread);
+    while (1)
     {
-        pthread_mutex_lock(data->right_fork);
-        printf("Philosopher %d picked up right fork.\n", data->id);
-        pthread_mutex_lock(data->left_fork);
-        printf("Philosopher %d picked up left fork.\n", data->id);
-    }
-    else
-    {
-        pthread_mutex_lock(data->left_fork);
-        printf("Philosopher %d picked up left fork.\n", data->id);
-        pthread_mutex_lock(data->right_fork);
-        printf("Philosopher %d picked up right fork.\n", data->id);
-    }
-    printf("Philosopher %d is eating...\n", data->id);
-    usleep(data->time_to_eat);
-    pthread_mutex_unlock(data->right_fork);
-    pthread_mutex_unlock(data->left_fork);
+        if (data->id % 2 == 0)
+            even_pick_fork(data);
+        else
+            odd_pick_fork(data);
+        start_eating(data);
+        if (data->meals_eaten == data->philosopher_must_eat)
+        {
+            leave_table(data);
+            return (NULL);
+        }
+        usleep(data->time_to_eat);
+        pthread_mutex_unlock(data->right_fork);
+        pthread_mutex_unlock(data->left_fork);
 
-    printf("Philosopher %d is now sleeping.\n", data->id);
-    usleep(data->time_to_sleep);
-    return NULL;   
+        printf("Philosopher %d is now sleeping.\n", data->id);
+        usleep(data->time_to_sleep * 1000);
+        printf("Philosopher %d is now thinking.\n", data->id);
+    }
+    return NULL;
 }
 
+void    init_philosopher(t_data *data, pthread_mutex_t *forks, int i, char **argv)
+{
+    data->number_of_philosophers = ft_atoi(argv[1]);
+    data->time_to_die = ft_atoi(argv[2]);
+    data->time_to_eat = ft_atoi(argv [3]);
+    data->time_to_sleep = ft_atoi(argv[4]);
+    data->philosopher_must_eat = ft_atoi(argv[5]);
+    data->meals_eaten = 0;
+    data->left_fork = &forks[i];
+    data->right_fork = &forks[(i + 1) % data->number_of_philosophers];
+    data->id = i + 1;
+    data->survived = 0;
+    data->last_meal_time = 0;
+}
 int main(int argc, char **argv)
 {
     pthread_mutex_t *forks;
@@ -52,7 +121,7 @@ int main(int argc, char **argv)
     if (argc != 6)
         return (1);
     
-    philo_num = atoi(argv[1]);
+    philo_num = ft_atoi(argv[1]);
     data = (t_data *)malloc(philo_num * sizeof(t_data));
     threads = (pthread_t *)malloc(philo_num * sizeof(pthread_t));
     forks = (pthread_mutex_t *)malloc(philo_num * sizeof(pthread_mutex_t));
@@ -63,19 +132,12 @@ int main(int argc, char **argv)
     }
 
     i = 0;
-    
+    while (i < philo_num)
+        pthread_mutex_init(&forks[i++], NULL);
+    i = 0;
     while (i < philo_num)
     {
-        data[i].number_of_philosophers = philo_num;
-        data[i].time_to_die = atoi(argv[2]);
-        data[i].time_to_eat = atoi(argv [3]);
-        data[i].time_to_sleep = atoi(argv[4]);
-        data[i].philosopher_must_eat = atoi(argv[5]);
-        data[i].meals_eaten = 0;
-        data[i].left_fork = &forks[i];
-        data[i].right_fork = &forks[(i + 1) % philo_num];
-        data[i].id = i + 1;
-        
+        init_philosopher(&data[i], forks, i, argv);
         if (pthread_create(&threads[i], NULL, thread_function, (void *)&data[i]) != 0)
         {
             perror("pthread_create failed");
@@ -85,14 +147,9 @@ int main(int argc, char **argv)
         }
         i++;
     }
-
     i = 0;
     while (i < philo_num)
-    {
-        pthread_join(threads[i], NULL);
-        i++;
-    }
-
+        pthread_join(threads[i++], NULL);
     free(data);
     free(threads);
     free(forks);
