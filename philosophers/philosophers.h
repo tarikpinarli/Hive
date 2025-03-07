@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:40:01 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/03/05 16:01:39 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/03/07 16:54:00 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 typedef struct s_data
 {
     int             id;
-    int             even;;
     int             number_of_philosophers;
     int             time_to_die;
     int             time_to_eat;
@@ -38,5 +37,10 @@ typedef struct s_data
 }   t_data;
 
 int	ft_atoi(const char *str);
+void	check_args(int argc, char **argv);
+
+//Error
+void    print_err_exit(char *str);
+void    print_err_free_exit(t_data *data, pthread_t *threads, pthread_mutex_t *forks);
 
 #endif

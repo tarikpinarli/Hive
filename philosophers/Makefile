@@ -6,7 +6,7 @@
 #    By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/05 13:09:26 by tpinarli          #+#    #+#              #
-#    Updated: 2025/03/05 16:02:55 by tpinarli         ###   ########.fr        #
+#    Updated: 2025/03/07 16:32:17 by tpinarli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ PRINTF		= $(PRINTFDIR)/libftprintf.a
 INCLUDES 	= -I $(PRINTFDIR)
 OBJ_DIR		= obj/
 
-SRCS =	main.c arg_handle_utils.c
+SRCS =	main.c arg_handle_utils.c error_exit.c
 
 OBJS = $(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
 

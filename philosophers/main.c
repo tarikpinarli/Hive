@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 13:17:26 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/03/05 16:38:36 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/03/07 16:59:11 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ void *monitor_death(void *arg)
     {
         if (get_current_time() - data->last_meal_time > data->time_to_die)
         {
-            printf("Philosopher %d has died.\n", data->id);
+            printf("%ld %d died\n",get_current_time() , data->id);
             exit(1);
         }
-        usleep(1000);
+        usleep(100);
     }
     return NULL;
 }
@@ -38,18 +38,27 @@ void *monitor_death(void *arg)
 void    even_pick_fork(t_data *data)
 {
     pthread_mutex_lock(data->right_fork);
+    printf("%ld %d has taken a fork\n"
+            ,get_current_time() , data->id);
     pthread_mutex_lock(data->left_fork);
+    printf("%ld %d has taken a fork\n"
+            ,get_current_time() , data->id);
 }
 
 void    odd_pick_fork(t_data *data)
 {
     pthread_mutex_lock(data->left_fork);
+    printf("%ld %d has taken a fork\n"
+            ,get_current_time() , data->id);
     pthread_mutex_lock(data->right_fork);
+    printf("%ld %d has taken a fork\n"
+            ,get_current_time() , data->id);
 }
 
 void    start_eating(t_data *data)
 {
-    printf("Philosopher %d is eating...\n", data->id);
+    printf("%ld %d is eating\n",get_current_time(), data->id);
+    data->last_meal_time = get_current_time();
     data->meals_eaten++;
     usleep(data->time_to_eat * 1000);
     data->last_meal_time = get_current_time();
@@ -59,7 +68,7 @@ void    leave_table(t_data *data)
 {
     pthread_mutex_unlock(data->right_fork);
     pthread_mutex_unlock(data->left_fork);
-    printf("Philosopher %d ate %d times, and left table.\n",
+    printf("%ld %d ate %d times, and left table.\n",get_current_time() ,
             data->id ,data->philosopher_must_eat);
     data->survived = 1;
 }
@@ -85,13 +94,12 @@ void    *thread_function(void *thread_data)
             leave_table(data);
             return (NULL);
         }
-        usleep(data->time_to_eat);
         pthread_mutex_unlock(data->right_fork);
         pthread_mutex_unlock(data->left_fork);
 
-        printf("Philosopher %d is now sleeping.\n", data->id);
+        printf("%ld %d is sleeping\n",get_current_time() , data->id);
         usleep(data->time_to_sleep * 1000);
-        printf("Philosopher %d is now thinking.\n", data->id);
+        printf("%ld %d is thinking\n",get_current_time() , data->id);
     }
     return NULL;
 }
@@ -110,6 +118,29 @@ void    init_philosopher(t_data *data, pthread_mutex_t *forks, int i, char **arg
     data->survived = 0;
     data->last_meal_time = 0;
 }
+void    thread_creation(pthread_t *threads, t_data *data, pthread_mutex_t *forks, char **argv)
+{
+    int i;
+    int philo_num;
+
+    i = 0;
+    philo_num = ft_atoi(argv[1]);
+    while (i < philo_num)
+    {
+        init_philosopher(&data[i], forks, i, argv);
+        if (pthread_create(&threads[i], NULL, thread_function, &data[i]) != 0)
+        {
+            perror("pthread_create failed");//fix
+            free(data);
+            free(threads);
+            exit(1);
+        }
+        i++;
+    }
+    i = 0;
+    while (i < philo_num)
+        pthread_join(threads[i++], NULL);
+}
 int main(int argc, char **argv)
 {
     pthread_mutex_t *forks;
@@ -118,38 +149,18 @@ int main(int argc, char **argv)
     int             philo_num;
     int             i;
 
-    if (argc != 6)
-        return (1);
-    
+    check_args(argc, argv);
     philo_num = ft_atoi(argv[1]);
     data = (t_data *)malloc(philo_num * sizeof(t_data));
     threads = (pthread_t *)malloc(philo_num * sizeof(pthread_t));
     forks = (pthread_mutex_t *)malloc(philo_num * sizeof(pthread_mutex_t));
     if (!data || !threads || !forks)
-    {
-        printf("Memory allocation failed\n"); //free proper later
-        return (1);
-    }
-
+        print_err_free_exit(data, threads, forks);
+    thread_creation(threads, data, forks, argv);
     i = 0;
     while (i < philo_num)
         pthread_mutex_init(&forks[i++], NULL);
-    i = 0;
-    while (i < philo_num)
-    {
-        init_philosopher(&data[i], forks, i, argv);
-        if (pthread_create(&threads[i], NULL, thread_function, (void *)&data[i]) != 0)
-        {
-            perror("pthread_create failed");
-            free(data);
-            free(threads);
-            return (1);
-        }
-        i++;
-    }
-    i = 0;
-    while (i < philo_num)
-        pthread_join(threads[i++], NULL);
+    
     free(data);
     free(threads);
     free(forks);
