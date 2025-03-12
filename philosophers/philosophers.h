@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:40:01 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/03/07 16:54:00 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:26:32 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,35 @@
 # include <stdbool.h> //bool
 # include <sys/time.h>
 
-typedef struct s_data
+typedef struct s_shared
 {
-    int             id;
     int             number_of_philosophers;
     int             time_to_die;
     int             time_to_eat;
     int             time_to_sleep;
     int             philosopher_must_eat;
+    int             simulation_active;
+    pthread_mutex_t *forks;
+    pthread_t       *threads;
+}   t_shared;
+
+typedef struct s_philosopher
+{
+    int             id;
     int             meals_eaten;
     long            last_meal_time;
     int             survived;
     pthread_mutex_t *left_fork;
     pthread_mutex_t *right_fork;
-}   t_data;
+    t_shared        *shared_data;
+}   t_philosopher;
 
 int	ft_atoi(const char *str);
 void	check_args(int argc, char **argv);
 
 //Error
 void    print_err_exit(char *str);
-void    print_err_free_exit(t_data *data, pthread_t *threads, pthread_mutex_t *forks);
+void    print_err_free_exit(t_shared *shared_data, t_philosopher *philosopher);
+void    free_all(t_shared *shared_data, t_philosopher *philosopher);
 
 #endif
