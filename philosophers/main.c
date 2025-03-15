@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 13:17:26 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/03/12 17:00:56 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/03/15 13:51:53 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,16 @@ void *monitor_death(void *arg)
     int i;
     
     t_philosopher *philosopher = (t_philosopher *)arg;
-    i = 0;
-    while (!philosopher->survived)
+    while (!philosopher->survived && philosopher->shared_data->simulation_active)
     {
         if (get_current_time() - philosopher->last_meal_time > philosopher->shared_data->time_to_die)
         {
             printf("%ld %d died\n",get_current_time() , philosopher->id);
             philosopher->shared_data->simulation_active = 0;
-            free_all(philosopher->shared_data, philosopher);
-            exit(1);
+            i = 0;
+            while (i < philosopher->shared_data->number_of_philosophers)
+                pthread_mutex_destroy(&philosopher->shared_data->forks[i++]);
+            exit(0);
         }
         usleep(1000);
     }
@@ -78,110 +79,130 @@ void    leave_table(t_philosopher *philosopher)
     philosopher->survived = 1;
 }
 
-void    *thread_function(void *philosopher_data)
+void    *thread_function(void *arg)
 {
-    t_philosopher   *philosopher;
+    t_philosopher        *philo;
     pthread_t       monitor_thread;
+    int             i;
     
-    philosopher = (t_philosopher *)philosopher_data;
-    philosopher->last_meal_time = get_current_time();
-    pthread_create(&monitor_thread, NULL, monitor_death, philosopher);
+    philo = (t_philosopher *)arg;
+    philo->last_meal_time = get_current_time();
+    pthread_create(&monitor_thread, NULL, monitor_death, philo);
     pthread_detach(monitor_thread);
-    while (philosopher->shared_data->simulation_active)
+    while (philo->shared_data->simulation_active)
     {
-        if (philosopher->id % 2 == 0)
-            even_pick_fork(philosopher);
+        if (philo->id % 2 == 0)
+            even_pick_fork(philo);
         else
-            odd_pick_fork(philosopher);
-        start_eating(philosopher);
-        if (philosopher->meals_eaten == philosopher->shared_data->philosopher_must_eat)
+            odd_pick_fork(philo);
+        start_eating(philo);
+        if (philo->meals_eaten == philo->shared_data->philosopher_must_eat)
         {
-            leave_table(philosopher);
+            leave_table(philo);
             return (NULL);
         }
-        pthread_mutex_unlock(philosopher->right_fork);
-        pthread_mutex_unlock(philosopher->left_fork);
-
-        printf("%ld %d is sleeping\n",get_current_time() , philosopher->id);
-        usleep(philosopher->shared_data->time_to_sleep * 1000);
-        printf("%ld %d is thinking\n",get_current_time() , philosopher->id);
-        if (!philosopher->shared_data->simulation_active)
+        pthread_mutex_unlock(philo->right_fork);
+        pthread_mutex_unlock(philo->left_fork);
+        printf("%ld %d is sleeping\n",get_current_time() , philo->id);
+        usleep(philo->shared_data->time_to_sleep * 1000);
+        printf("%ld %d is thinking\n",get_current_time(), philo->id);
+        if (philo->shared_data->simulation_active)
         {
-            free_all(philosopher->shared_data, philosopher);
-            exit(1);
+            i = 0;
+            while (i < philo->shared_data->number_of_philosophers)
+                pthread_mutex_destroy(&philo->shared_data->forks[i++]);
         }
     }
     return NULL;
 }
-
-void    philosopher_data_init(t_shared *shared_data, t_philosopher *philosopher, int i)
-{
-    philosopher->id = i + 1;
-    philosopher->meals_eaten = 0;
-    philosopher->last_meal_time = 0;
-    philosopher->survived = 0;
-    philosopher->left_fork = &shared_data->forks[i];
-    philosopher->right_fork = &shared_data->forks[(i + 1) % shared_data->number_of_philosophers];
-    philosopher->shared_data = shared_data;
-}
-
-void    shared_data_init(t_shared *shared, char **argv)
+void    thread_creation(t_shared *shared_data)
 {
     int i;
-    
-    shared->simulation_active = 1;
-    shared->number_of_philosophers = ft_atoi(argv[1]);
-    shared->time_to_die = ft_atoi(argv[2]);
-    shared->time_to_eat = ft_atoi(argv [3]);
-    shared->time_to_sleep = ft_atoi(argv[4]);
-    shared->philosopher_must_eat = ft_atoi(argv[5]);
-    shared->threads = (pthread_t *)malloc(shared->number_of_philosophers * sizeof(pthread_t));
-    if (!shared->threads)
-        print_err_exit("shared_data_init malloc failed.\n");
-    shared->forks = (pthread_mutex_t *)malloc(shared->number_of_philosophers * sizeof(pthread_mutex_t));
-    if (!shared->forks)
-        print_err_exit("shared_data_init malloc failed.\n");
-    i = 0;
-    while (i < shared->number_of_philosophers)
-        pthread_mutex_init(&shared->forks[i++], NULL);
-}
-void    thread_creation(t_shared *shared_data, t_philosopher *philosopher, char **argv)
-{
-    int i;
-    int philo_num;
 
     i = 0;
-    philo_num = ft_atoi(argv[1]);
-    shared_data_init(shared_data, argv);
-    while (i < philo_num)
+    while (i < shared_data->number_of_philosophers)
     {
-        philosopher_data_init(shared_data, &philosopher[i], i);
-        if (pthread_create(&shared_data->threads[i], NULL, thread_function, &philosopher[i]) != 0)
+        if (pthread_create(&shared_data->philos[i].threads, NULL, thread_function, &shared_data->philos[i]) != 0)
         {
-            perror("pthread_create failed");//fix
+            printf("pthread_create failed");//fix
             //Free all
             exit(1);
         }
         i++;
     }
 }
+
+void    philosopher_init(t_shared *shared_data)
+{
+    int             i;
+    t_philosopher   *philosopher;
+
+    philosopher = shared_data->philos;
+    i = 0;
+    while (i < shared_data->number_of_philosophers)
+    {
+        philosopher[i].id = i + 1;
+        philosopher[i].meals_eaten = 0;
+        philosopher[i].last_meal_time = 0;
+        philosopher[i].survived = 0;
+        philosopher[i].left_fork = &shared_data->forks[i];
+        philosopher[i].right_fork = &shared_data->forks[(i + 1) % shared_data->number_of_philosophers];
+        philosopher[i].shared_data = shared_data;
+        i++;
+    }
+}
+
+
+void thread_init(t_shared *shared)
+{
+    int i;
+    t_philosopher philo[shared->number_of_philosophers];  // Stack allocation
+    pthread_mutex_t forks[shared->number_of_philosophers];
+
+    shared->philos = philo;
+    shared->forks = forks;
+
+    i = 0;
+    while (i < shared->number_of_philosophers)
+        pthread_mutex_init(&shared->forks[i++], NULL);
+
+    philosopher_init(shared);
+    thread_creation(shared);  // Create threads inside this function
+
+    // Keep function alive until threads finish
+    i = 0;
+    while (i < shared->number_of_philosophers)
+        pthread_join(shared->philos[i++].threads, NULL);
+
+    // Cleanup
+    i = 0;
+    while (i < shared->number_of_philosophers)
+        pthread_mutex_destroy(&shared->forks[i++]);
+}
+
+void    shared_data_init(t_shared *shared, char **argv)
+{
+    shared->simulation_active = 1;
+    shared->number_of_philosophers = ft_atoi(argv[1]);
+    shared->time_to_die = ft_atoi(argv[2]);
+    shared->time_to_eat = ft_atoi(argv [3]);
+    shared->time_to_sleep = ft_atoi(argv[4]);
+    shared->philosopher_must_eat = ft_atoi(argv[5]);
+}
 int main(int argc, char **argv)
 {
-    t_shared        *shared_data;
-    t_philosopher   *philosophers;   
-    int             philo_num;
+    t_shared        shared_data;
     int             i;
 
     check_args(argc, argv);
-    philo_num = ft_atoi(argv[1]);
-    shared_data = (t_shared *)malloc(sizeof(t_shared));
-    philosophers = (t_philosopher *)malloc(philo_num * sizeof(t_philosopher));
-    if (!shared_data || !philosophers)
-        print_err_free_exit(shared_data, philosophers);
+    shared_data_init(&shared_data, argv);
+    thread_init(&shared_data);
     i = 0;
-    thread_creation(shared_data, philosophers, argv);
-    while (i < philo_num)
-        pthread_join(shared_data->threads[i++], NULL);
-    free_all(shared_data, philosophers);
+    while (i < shared_data.number_of_philosophers)
+    {
+        pthread_mutex_destroy(&shared_data.forks[i]);
+        i++;
+    }
+        
     return (0);
 }
