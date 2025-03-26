@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 13:17:26 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/03/15 13:51:53 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:53:26 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,16 @@ long    get_current_time()
 }
 
 void *monitor_death(void *arg)
-{
-    int i;
-    
+{   
     t_philosopher *philosopher = (t_philosopher *)arg;
     while (!philosopher->survived && philosopher->shared_data->simulation_active)
     {
         if (get_current_time() - philosopher->last_meal_time > philosopher->shared_data->time_to_die)
         {
-            printf("%ld %d died\n",get_current_time() , philosopher->id);
+            if (philosopher->shared_data->simulation_active && !philosopher->survived)
+                printf("%ld %d died\n",get_current_time() , philosopher->id);
             philosopher->shared_data->simulation_active = 0;
-            i = 0;
-            while (i < philosopher->shared_data->number_of_philosophers)
-                pthread_mutex_destroy(&philosopher->shared_data->forks[i++]);
-            exit(0);
+            return NULL;
         }
         usleep(1000);
     }
@@ -44,26 +40,31 @@ void *monitor_death(void *arg)
 void    even_pick_fork(t_philosopher *philosopher)
 {
     pthread_mutex_lock(philosopher->right_fork);
-    printf("%ld %d has taken a fork\n"
-            ,get_current_time() , philosopher->id);
+    if (philosopher->shared_data->simulation_active && !philosopher->survived)
+        printf("%ld %d has taken a fork\n"
+                ,get_current_time() , philosopher->id);
     pthread_mutex_lock(philosopher->left_fork);
-    printf("%ld %d has taken a fork\n"
-            ,get_current_time() , philosopher->id);
+    if (philosopher->shared_data->simulation_active && !philosopher->survived)
+        printf("%ld %d has taken a fork\n"
+                ,get_current_time() , philosopher->id);
 }
 
 void    odd_pick_fork(t_philosopher *philosopher)
 {
     pthread_mutex_lock(philosopher->left_fork);
-    printf("%ld %d has taken a fork\n"
-            ,get_current_time() , philosopher->id);
+    if (philosopher->shared_data->simulation_active && !philosopher->survived)
+        printf("%ld %d has taken a fork\n"
+                ,get_current_time() , philosopher->id);
     pthread_mutex_lock(philosopher->right_fork);
-    printf("%ld %d has taken a fork\n"
-            ,get_current_time() , philosopher->id);
+    if (philosopher->shared_data->simulation_active && !philosopher->survived)
+        printf("%ld %d has taken a fork\n"
+                ,get_current_time() , philosopher->id);
 }
 
 void    start_eating(t_philosopher *philosopher)
 {
-    printf("%ld %d is eating\n",get_current_time(), philosopher->id);
+    if (philosopher->shared_data->simulation_active && !philosopher->survived)
+        printf("%ld %d is eating\n",get_current_time(), philosopher->id);
     philosopher->last_meal_time = get_current_time();
     philosopher->meals_eaten++;
     usleep(philosopher->shared_data->time_to_eat * 1000);
@@ -74,8 +75,9 @@ void    leave_table(t_philosopher *philosopher)
 {
     pthread_mutex_unlock(philosopher->right_fork);
     pthread_mutex_unlock(philosopher->left_fork);
-    printf("%ld %d ate %d times, and left table.\n",get_current_time() ,
-            philosopher->id ,philosopher->shared_data->philosopher_must_eat);
+    if (philosopher->shared_data->simulation_active && !philosopher->survived)
+        printf("%ld %d ate %d times, and left table.\n",get_current_time() ,
+                philosopher->id ,philosopher->shared_data->philosopher_must_eat);
     philosopher->survived = 1;
 }
 
@@ -83,7 +85,6 @@ void    *thread_function(void *arg)
 {
     t_philosopher        *philo;
     pthread_t       monitor_thread;
-    int             i;
     
     philo = (t_philosopher *)arg;
     philo->last_meal_time = get_current_time();
@@ -103,16 +104,14 @@ void    *thread_function(void *arg)
         }
         pthread_mutex_unlock(philo->right_fork);
         pthread_mutex_unlock(philo->left_fork);
-        printf("%ld %d is sleeping\n",get_current_time() , philo->id);
+        if (philo->shared_data->simulation_active && !philo->survived)
+            printf("%ld %d is sleeping\n",get_current_time() , philo->id);
         usleep(philo->shared_data->time_to_sleep * 1000);
-        printf("%ld %d is thinking\n",get_current_time(), philo->id);
-        if (philo->shared_data->simulation_active)
-        {
-            i = 0;
-            while (i < philo->shared_data->number_of_philosophers)
-                pthread_mutex_destroy(&philo->shared_data->forks[i++]);
-        }
+        if (philo->shared_data->simulation_active && !philo->survived)
+            printf("%ld %d is thinking\n",get_current_time(), philo->id);
     }
+    pthread_mutex_unlock(philo->right_fork);
+    pthread_mutex_unlock(philo->left_fork);
     return NULL;
 }
 void    thread_creation(t_shared *shared_data)
@@ -156,7 +155,7 @@ void    philosopher_init(t_shared *shared_data)
 void thread_init(t_shared *shared)
 {
     int i;
-    t_philosopher philo[shared->number_of_philosophers];  // Stack allocation
+    t_philosopher philo[shared->number_of_philosophers];
     pthread_mutex_t forks[shared->number_of_philosophers];
 
     shared->philos = philo;
@@ -167,17 +166,17 @@ void thread_init(t_shared *shared)
         pthread_mutex_init(&shared->forks[i++], NULL);
 
     philosopher_init(shared);
-    thread_creation(shared);  // Create threads inside this function
-
-    // Keep function alive until threads finish
+    thread_creation(shared);
     i = 0;
     while (i < shared->number_of_philosophers)
         pthread_join(shared->philos[i++].threads, NULL);
-
-    // Cleanup
     i = 0;
     while (i < shared->number_of_philosophers)
-        pthread_mutex_destroy(&shared->forks[i++]);
+    {
+        usleep(100);
+        pthread_mutex_destroy(&shared->forks[i]);
+        i++;
+    }
 }
 
 void    shared_data_init(t_shared *shared, char **argv)
@@ -192,17 +191,9 @@ void    shared_data_init(t_shared *shared, char **argv)
 int main(int argc, char **argv)
 {
     t_shared        shared_data;
-    int             i;
 
     check_args(argc, argv);
     shared_data_init(&shared_data, argv);
     thread_init(&shared_data);
-    i = 0;
-    while (i < shared_data.number_of_philosophers)
-    {
-        pthread_mutex_destroy(&shared_data.forks[i]);
-        i++;
-    }
-        
     return (0);
 }
