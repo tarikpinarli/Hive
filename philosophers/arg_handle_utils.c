@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:40:30 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/03/26 14:35:02 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/03/28 16:16:30 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	check_args(int argc, char **argv)
 	int	i;
 
 	i = 1;
-	if(argc < 6 || argc > 6)
+	if(argc != 5 && argc != 6)
 		print_err_exit("Invalid argument count.\n");
 	while(i < argc)
 	{

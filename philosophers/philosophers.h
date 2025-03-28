@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:40:01 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/03/15 12:55:38 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/03/28 16:37:46 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ typedef struct s_philosopher
     int             id;
     int             meals_eaten;
     long            last_meal_time;
-    int             survived;
     pthread_mutex_t *left_fork;
     pthread_mutex_t *right_fork;
     t_shared        *shared_data;
@@ -43,7 +42,10 @@ typedef struct s_shared
     int             time_to_sleep;
     int             philosopher_must_eat;
     int             simulation_active;
+    int             survived_philos;
+    pthread_mutex_t *mutex_survived;
     pthread_mutex_t *forks;
+    pthread_mutex_t *lock_print;
     t_philosopher   *philos;
 }   t_shared;
 
