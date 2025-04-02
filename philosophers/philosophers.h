@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:40:01 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/03/28 16:37:46 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/04/02 12:49:37 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 # define PHILOSOPHERS_H
 # include <pthread.h>
 # include <stdlib.h>
-# include "printf/ft_printf.h"
 # include <unistd.h> //for sleep
 # include <stdio.h> //delete later
 # include <stdbool.h> //bool
@@ -25,36 +24,47 @@ typedef struct s_shared t_shared;
 
 typedef struct s_philosopher
 {
-    pthread_t       threads;
-    int             id;
-    int             meals_eaten;
-    long            last_meal_time;
-    pthread_mutex_t *left_fork;
-    pthread_mutex_t *right_fork;
-    t_shared        *shared_data;
+    pthread_t       thread;             // Philosopher thread
+    int             id;                 // Philosopher number (1 to N)
+    int             meals_eaten;        // Number of meals eaten
+    long            last_meal;          // Timestamp of last meal
+    pthread_mutex_t meal_mutex;         // Protects access to last_meal
+
+    pthread_mutex_t *left_fork;         // Pointer to left fork
+    pthread_mutex_t *right_fork;        // Pointer to right fork
+
+    struct s_shared *shared;            // Pointer to shared state
 }   t_philosopher;
+
 
 typedef struct s_shared
 {
-    int             number_of_philosophers;
+    int             philo_no;
     int             time_to_die;
     int             time_to_eat;
     int             time_to_sleep;
-    int             philosopher_must_eat;
-    int             simulation_active;
-    int             survived_philos;
-    pthread_mutex_t *mutex_survived;
-    pthread_mutex_t *forks;
-    pthread_mutex_t *lock_print;
-    t_philosopher   *philos;
+    int             must_eat;
+
+    long            start_time;         // For tracking simulation timing
+
+    int             sim_active;         // 1 if simulation still running
+    pthread_mutex_t sim_mutex;          // Protects sim_active
+
+    int             survived_philos;    // Philos who reached must_eat
+    pthread_mutex_t survived_mutex;     // Protects survived_philos
+
+    pthread_mutex_t print_mutex;        // Controls stdout printing
+    pthread_mutex_t *forks;             // Array of fork mutexes
+
+    t_philosopher   *philos;            // Array of philosophers
 }   t_shared;
+
 
 int	ft_atoi(const char *str);
 void	check_args(int argc, char **argv);
 
 //Error
 void    print_err_exit(char *str);
-//void    print_err_free_exit(t_shared *shared_data, t_philosopher *philosopher);
-//void    free_all(t_shared *shared_data, t_philosopher *philosopher);
-
+//free
+void    free_all(t_shared *shared);
 #endif
