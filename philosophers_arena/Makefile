@@ -6,7 +6,7 @@
 #    By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/25 17:52:42 by tpinarli          #+#    #+#              #
-#    Updated: 2025/05/25 20:49:34 by tpinarli         ###   ########.fr        #
+#    Updated: 2025/05/26 16:25:03 by tpinarli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,10 +31,12 @@ SRC = \
 	init/init_forks.c \
 	init/init_philos.c \
 	init/setup_table.c \
+	simulation/philo_routine.c \
 	simulation/control.c \
 	simulation/monitor_death.c \
-	simulation/philo_routine.c \
-		
+	simulation/setup_philos.c \
+	simulation/philo_think.c \
+
 OBJ_DIR = obj
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 

@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 20:06:39 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/05/25 20:12:24 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/05/26 15:32:55 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	init_table_struct(t_arena *arena, t_table **table_ptr, char **argv)
 		return (1);
 	table->simul_start_time = get_current_time_microseconds();
 	table->philo_created = 0;
-	table->philo_die = false;
+	table->a_philo_is_dead = false;
 	table->print = true;
 	if (pthread_mutex_init(&table->print_mutex, NULL) != 0)
 		return (1);

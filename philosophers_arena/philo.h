@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 17:27:57 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/05/25 20:50:59 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/05/26 16:23:46 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ typedef struct s_table
 	long			time_to_eat;
 	long			time_to_sleep;
 	int				required_meals;
-	long			simul_start_time;
 	int				philo_created;
-	pthread_mutex_t	status_mutex;
-	bool			philo_die;
+	long			simul_start_time;
+	bool			a_philo_is_dead;
 	bool			print;
+	pthread_mutex_t	status_mutex;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	monitor;
 	pthread_t		monitor_thread;
@@ -78,6 +78,7 @@ void        arena_destroy(t_arena *arena);
 // utils
 int         input_check(int argc, char **argv);
 long        get_current_time_microseconds(void);
+void		safe_sleep(t_philo *philo, long sleep_duration_ms);
 long        ft_atoi(const char *str);
 // init/
 int         init_table_struct(t_arena *arena, t_table **table_ptr, char **argv);
@@ -87,15 +88,23 @@ int         init_forks(t_arena *arena, t_table *table);
 int         init_philos(t_arena *arena, t_table *table);
 int         table_init(t_arena *arena, t_table **table_ptr, char **argv);
 // simulation
+void		*philo_routine(void *arg);
 int		    create_philo_threads(t_table *table);
 int		    create_monitor_thread(t_table *table);
 void	    join_philo_threads(t_table *table);
 void	    join_monitor_thread(t_table *table);
 void	    start_simulation(t_table *table);
+// actions
+void	philo_think(t_philo *philo);
 // routine
-void	    *philo_routine(void *arg);
+void	    *setup_philos(void *arg);
 void	    *monitor_death(void *arg);
 
 // Monitor
+int	monitor_philo_death(t_philo *philo);
+int	table_death_check(t_philo *philo);
+
+// Print
+void	safe_print(t_philo *philo, const char *message);
 
 #endif

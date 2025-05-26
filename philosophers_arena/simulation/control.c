@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 20:43:59 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/05/25 21:01:07 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/05/26 15:26:03 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	create_philo_threads(t_table *table)
 	while (i < table->num_philo)
 	{
 		if (pthread_create(&table->philo[i].thread, NULL,
-				philo_routine, &table->philo[i]) != 0)
+				setup_philos, &table->philo[i]) != 0)
 		{
 			printf("Error: Failed to create thread for philosopher %d\n", i + 1);
 			table->num_philo = i;
@@ -46,7 +46,7 @@ int	create_monitor_thread(t_table *table)
 		while (i >= 0)
 		{
 			i--;
-			pthread_join(table->philo[i].thread, NULL);	
+			pthread_join(table->philo[i].thread, NULL);
 		}
 		return (1);
 	}
